@@ -19,8 +19,12 @@ class cassandra::repo::debian(
         include  => {
           src => false,
         }
-    } -> exec{ "apt-get update for cassandra":
-      command => '/usr/bin/apt-get update'
+    }
+
+    exec{ "apt-get update for cassandra":
+      command => '/usr/bin/apt-get update',
+      subscribe => Apt::Source[$repo_name],
+      refreshonly => true
     }
 
     # pin the package
